@@ -5,7 +5,6 @@ import { useEffect } from "react";
 import { useState } from "react";
 import easyeval_hindi from "./easyeval_hindi.json";
 import ProgressBar from "@ramonak/react-progress-bar";
-import UserProfilePage from "@/app/user-profile/[[...user-profile]]/page";
 function useOnceCall(cb: any, condition = true) {
   const isCalledRef = React.useRef(false);
 
@@ -123,36 +122,41 @@ function page() {
   localStorage.setItem("brailleScore", JSON.stringify((score/5)*100));
 
   return (
-    <MaxWidthWrapper>
-      <div className="m-8 p-4 bg-gray-200 rounded shadow-md">
-        {currentQuestionIndex < questions.length ? (
-          <div>
-            <h1 className="text-2xl font-semibold mb-4">
-              {/* @ts-ignore */}
-              {questions[currentQuestionIndex].question}
-            </h1>
-            <input
-              type="text"
-              value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
-              className="border p-2 mb-4"
-              placeholder="Enter your answer"
-            />
-            <button
-              onClick={handleAnswerSubmit}
-              className="bg-rose-500 text-white px-4 py-2 rounded"
-            >
-              Submit
-            </button>
-          </div>
-        ) : (
-          <div>
-            <h1 className="text-2xl font-semibold mb-4">Quiz Completed!</h1>
-            <p>Your Score: {score}</p>
-          </div>
-        )}
+<MaxWidthWrapper>
+  <div className="m-8 p-4 bg-gray-200 rounded shadow-md">
+    {currentQuestionIndex < questions.length ? (
+      <form onSubmit={(e) => e.preventDefault()}>
+        <h1 className="text-2xl font-semibold mb-4">
+          {questions[currentQuestionIndex].question}
+        </h1>
+        <input
+          type="text"
+          value={answer}
+          onChange={(e) => setAnswer(e.target.value)}
+          className="border p-2 mb-4"
+          placeholder="Enter your answer"
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault(); // Prevent form submission
+              handleAnswerSubmit();
+            }
+          }}
+        />
+        <button
+          onClick={handleAnswerSubmit}
+          className="bg-rose-500 text-white px-4 py-2 rounded"
+        >
+          Submit
+        </button>
+      </form>
+    ) : (
+      <div>
+        <h1 className="text-2xl font-semibold mb-4">Quiz Completed!</h1>
+        <p>Your Score: {score}</p>
       </div>
-    </MaxWidthWrapper>
+    )}
+  </div>
+</MaxWidthWrapper>
   );
 }
 

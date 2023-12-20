@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { UserProfile } from "@clerk/nextjs";
 import ProgressBar from "@ramonak/react-progress-bar";
 import { useState } from "react";
