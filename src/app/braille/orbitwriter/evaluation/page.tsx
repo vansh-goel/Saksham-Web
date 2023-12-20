@@ -4,6 +4,8 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import easyeval_hindi from "./easyeval_hindi.json";
+import ProgressBar from "@ramonak/react-progress-bar";
+import UserProfilePage from "@/app/user-profile/[[...user-profile]]/page";
 function useOnceCall(cb: any, condition = true) {
   const isCalledRef = React.useRef(false);
 
@@ -75,7 +77,7 @@ function page() {
 
   useEffect(() => {
     // @ts-ignore
-    setQuestions(questionsData); // Randomly select 5 questions
+    setQuestions(questionsData.slice(0, 5)); // Randomly select 5 questions
   }, []);
   useOnceCall(() => {
     speak(questionsData[0].question)
@@ -118,6 +120,8 @@ function page() {
 
     }
   }, [currentQuestionIndex, questions]);
+  localStorage.setItem("brailleScore", JSON.stringify((score/5)*100));
+
   return (
     <MaxWidthWrapper>
       <div className="m-8 p-4 bg-gray-200 rounded shadow-md">
